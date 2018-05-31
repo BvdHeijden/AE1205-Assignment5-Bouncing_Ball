@@ -44,12 +44,11 @@ def bouncedposition(a,b,p,q):
     x=dot(x,n)
     x=abs(x*2)
     x=[x*n[0],x*n[1]]
-    print(x)
     
     qr=[x[0]*n[0],x[1]*n[1]]
     
     r=[q[0]+qr[0],q[1]+qr[1]]
-    return r
+    return s, r
 
 def bouncedSpeed(v,n):
     dv=[2*dot(v,n)*n[0],2*dot(v,n)*n[1]]
@@ -63,19 +62,23 @@ def bounceline(a,b,p,q,v):
     else:
         bounced = False
         
-    r=bouncedposition(a,b,p,q)
+    r,s=bouncedposition(a,b,p,q)
     newv=bouncedSpeed(v,normalvec(a,b,p,q))
     
-    return bounced , r , newv
+    return bounced , s , r , newv
         
-p1=[1.,4.]
-p2=[2.,1.]
-prevpos=[3.,6.] 
-pos=[1.,2.]
-v=[(pos[0]-prevpos[0])/0.1,(pos[1]-prevpos[1])/0.1]
-
-bounced,newpos,newv=bounceline(p1,p2,prevpos,pos,v)
-
-plt.plot([p1[0],p2[0]])
-
-print(bounceline(p1,p2,prevpos,pos,v))   
+#p1=[1.,4.]
+#p2=[2.,1.]
+#prevpos=[3.,6.] 
+#pos=[1.,2.]
+#v=[(pos[0]-prevpos[0])/0.1,(pos[1]-prevpos[1])/0.1]
+#
+#bounced,bouncepoint,newpos,newv=bounceline(p1,p2,prevpos,pos,v)
+#
+#plt.plot([p1[0],p2[0]],[p1[1],p2[1]],label="Line")
+#plt.plot([prevpos[0],pos[0]],[prevpos[1],pos[1]],label="Original Trajectory")
+#if bounced:
+#    plt.plot([bouncepoint[0],newpos[0]],[bouncepoint[1],newpos[1]],label="Bounced Trajectory")
+#plt.legend()
+#
+#print(bounceline(p1,p2,prevpos,pos,v))   
