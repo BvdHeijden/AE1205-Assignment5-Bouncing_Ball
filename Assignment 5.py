@@ -48,6 +48,7 @@ t0=float(pg.time.get_ticks())/1000
 #Main Loop
 while running:
     pg.event.pump()
+    pg.time.wait(5)
     keys=pg.key.get_pressed()
     
     #Calculate time since last frame
