@@ -6,7 +6,8 @@ import bouncing
 
 #Initialize Pygame and load ball image and sound
 pg.init()
-bounceSound=pg.mixer.Sound('bSound.wav')
+bounceSound=pg.mixer.Sound('doh.wav')
+exitsound=pg.mixer.Sound('exit.wav')
 ballimg=pg.image.load("ball1.gif")
 ballimg=pg.transform.scale(ballimg,(25,25))
 ballrect=ballimg.get_rect()
@@ -20,8 +21,8 @@ green = (  0, 255,   0)
 red =   (255,   0,   0)
 
 #Set screen resolution
-xmax=800
-ymax=800
+xmax=1920
+ymax=980
 reso=(xmax,ymax)
 scr=pg.display.set_mode(reso)
 
@@ -36,11 +37,21 @@ G=[rnd.rand() * xmax , rnd.rand() * ymax]
 H=[rnd.rand() * xmax , rnd.rand() * ymax]
 I=[rnd.rand() * xmax , rnd.rand() * ymax]
 J=[rnd.rand() * xmax , rnd.rand() * ymax]
+K=[rnd.rand() * xmax , rnd.rand() * ymax]
+L=[rnd.rand() * xmax , rnd.rand() * ymax]
+M=[rnd.rand() * xmax , rnd.rand() * ymax]
+N=[rnd.rand() * xmax , rnd.rand() * ymax]
+O=[rnd.rand() * xmax , rnd.rand() * ymax]
+P=[rnd.rand() * xmax , rnd.rand() * ymax]
+Q=[rnd.rand() * xmax , rnd.rand() * ymax]
+R=[rnd.rand() * xmax , rnd.rand() * ymax]
+S=[rnd.rand() * xmax , rnd.rand() * ymax]
+T=[rnd.rand() * xmax , rnd.rand() * ymax]
 
 #create a random starting position and velocity
 pos=[rnd.rand() * xmax , rnd.rand() * ymax]
 vel=[rnd.rand(), rnd.rand()]
-vel=vel/norm(vel)*300
+vel=vel/norm(vel)*1000
 
 #set T0
 t0=float(pg.time.get_ticks())/1000
@@ -61,7 +72,7 @@ while running:
     
     #Check each line for a bounce, in which case calculate bounced position and velocity
     anyBounce=False
-    lines=[[A,B],[B,C],[C,D],[D,A],[E,F],[G,H],[I,J]]
+    lines=[[A,B],[B,C],[C,D],[D,A],[E,F],[G,H],[I,J],[K,L],[M,N],[O,P],[Q,R],[S,T]]
     for line in lines:
         bounced,s,r,newv=bouncing.bounceline(line[0],line[1],pos,newpos,vel)
         if bounced:
@@ -76,15 +87,21 @@ while running:
     #set new ball position
     ballrect.center=pos[0],pos[1]
     
+    
     #re-draw screen
     scr.fill(black)
     pg.draw.line(scr,red,A,B,5)
     pg.draw.line(scr,red,B,C,5)
     pg.draw.line(scr,red,C,D,5)
     pg.draw.line(scr,red,D,A,5)
-    pg.draw.line(scr,red,E,F,5)
-    pg.draw.line(scr,red,G,H,5)
-    pg.draw.line(scr,red,I,J,5)
+    pg.draw.line(scr,(rnd.randint(0,256),rnd.randint(0,256),rnd.randint(0,256)),E,F,5)
+    pg.draw.line(scr,(rnd.randint(0,256),rnd.randint(0,256),rnd.randint(0,256)),G,H,5)
+    pg.draw.line(scr,(rnd.randint(0,256),rnd.randint(0,256),rnd.randint(0,256)),I,J,5)
+    pg.draw.line(scr,(rnd.randint(0,256),rnd.randint(0,256),rnd.randint(0,256)),K,L,5)
+    pg.draw.line(scr,(rnd.randint(0,256),rnd.randint(0,256),rnd.randint(0,256)),M,N,5)
+    pg.draw.line(scr,(rnd.randint(0,256),rnd.randint(0,256),rnd.randint(0,256)),O,P,5)
+    pg.draw.line(scr,(rnd.randint(0,256),rnd.randint(0,256),rnd.randint(0,256)),Q,R,5)
+    pg.draw.line(scr,(rnd.randint(0,256),rnd.randint(0,256),rnd.randint(0,256)),S,T,5)
     
     scr.blit(ballimg,ballrect)
         
@@ -92,6 +109,8 @@ while running:
     
     #quit when ESCAPE is pressed
     if keys[pg.K_ESCAPE]:
+        pg.mixer.Sound.play(exitsound)
+        pg.time.wait(3000)
         running=False
 
 pg.quit()
