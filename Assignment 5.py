@@ -2,11 +2,16 @@
 import pygame as pg
 import numpy.random as rnd
 from numpy.linalg import norm
+import matplotlib.pyplot as plt
 import bouncing
+
+#set start velocity and bouncing factor
+vstart = 100.
+bf = 1.05
 
 #Initialize Pygame and load ball image and sound
 pg.init()
-bounceSound=pg.mixer.Sound('doh.wav')
+bounceSound=pg.mixer.Sound('bSound.wav')
 exitsound=pg.mixer.Sound('exit.wav')
 ballimg=pg.image.load("ball1.gif")
 ballimg=pg.transform.scale(ballimg,(25,25))
@@ -51,7 +56,11 @@ T=[rnd.rand() * xmax , rnd.rand() * ymax]
 #create a random starting position and velocity
 pos=[rnd.rand() * xmax , rnd.rand() * ymax]
 vel=[rnd.rand(), rnd.rand()]
-vel=vel/norm(vel)*1000
+vel=vel/norm(vel)*vstart
+
+#Initialise tracing
+xtrace=[pos[0]]
+ytrace=[pos[1]]
 
 #set T0
 t0=float(pg.time.get_ticks())/1000
@@ -78,8 +87,10 @@ while running:
         if bounced:
             pg.mixer.Sound.play(bounceSound)
             print('\nBounce detected\npos=',pos,'\ns=',s,'\nr=',r,'\nv=',vel,'\nnewv=',newv)
+            xtrace.append(s[0])
+            ytrace.append(s[1])
             newpos=r
-            vel=newv
+            vel=[newv[0]*bf,newv[1]*bf]
             break
         
     pos=newpos    
@@ -109,8 +120,14 @@ while running:
     
     #quit when ESCAPE is pressed
     if keys[pg.K_ESCAPE]:
-        pg.mixer.Sound.play(exitsound)
-        pg.time.wait(3000)
         running=False
+    
+    if pos[0]<0 or pos[0]>xmax or pos[1]<0 or pos[1]>ymax:
+        running=False
+        
 
+#end program
+pg.mixer.Sound.play(exitsound)
+pg.time.wait(3000)
 pg.quit()
+plt.plot(xtrace,ytrace)
